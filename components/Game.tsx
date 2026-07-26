@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Board } from "@/components/Board";
 import { GameState } from "@/types/stateManagement";
 
-
 export const Game = ({ dimension = 3, numberOfPlayers = 2 }: { dimension?: number, numberOfPlayers?: number }) => {
     if (dimension % 2 === 0) {
         throw new Error("Dimension must be odd");
@@ -23,7 +22,6 @@ export const Game = ({ dimension = 3, numberOfPlayers = 2 }: { dimension?: numbe
         setCurrentPlayer,
         setWinner
     };
-
     if(winner){
         return (
             <div className="flex flex-col items-center gap-3 text-center">
@@ -33,6 +31,9 @@ export const Game = ({ dimension = 3, numberOfPlayers = 2 }: { dimension?: numbe
                 <p className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
                     Winner: Player {winner} ({winner === 1 ? "X" : "O"})
                 </p>
+                <button onClick={() => window.location.reload()} className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-100 dark:focus:ring-zinc-400 dark:focus:ring-offset-zinc-950">
+                    Play Again
+                </button>
             </div>
         );
     }
@@ -46,6 +47,9 @@ export const Game = ({ dimension = 3, numberOfPlayers = 2 }: { dimension?: numbe
                     </span>
                 </p>
                 <Board gameState={gameState} />
+                <button onClick={() => window.location.reload()} className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-100 dark:focus:ring-zinc-400 dark:focus:ring-offset-zinc-950">
+                    Reset
+                </button>
             </div>
         );
     }
