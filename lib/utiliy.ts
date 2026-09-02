@@ -52,3 +52,14 @@ export const alreadyFilled = ({ row, col, board }: { row: number, col: number, b
     if (board[row][col] != 0) return true;
     return false;
 }
+
+
+export const checkDraw = (board: number[][]): boolean => {
+    const n = board.length;
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (board[i][j] === 0) return false;
+        }
+    }
+    return true;
+}

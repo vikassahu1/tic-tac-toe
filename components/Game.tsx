@@ -1,56 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { Board } from "@/components/Board";
-import { GameState } from "@/types/stateManagement";
+import { GameState, PlayerInfo } from "@/types/stateManagement";
+import { Winner } from "@/components/Winner";
+import { Round } from "@/components/Round";
 
-export const Game = ({ dimension = 3, numberOfPlayers = 2 }: { dimension?: number, numberOfPlayers?: number }) => {
+export const Game = ({ playerInfo }: { playerInfo: PlayerInfo }) => {
+    const { dimension, rounds } = playerInfo;
+    const [roundWinner, setRoundWinner] = useState<number[]>(() => Array(rounds).fill(0));
+    const [roundNumber, setRoundNumber] = useState(1);
+
     if (dimension % 2 === 0) {
         throw new Error("Dimension must be odd");
     }
-    const [board, setBoard] = useState(() => Array(dimension).fill(0).map(() => Array(dimension).fill(0)));
-    const [currentPlayer, setCurrentPlayer] = useState(1);
+
     const [winner, setWinner] = useState<number | null>(null);
 
     let gameState: GameState = {
-        board,
-        currentPlayer,
         winner,
-        dimension,
-        numberOfPlayers,
-        setBoard,
-        setCurrentPlayer,
-        setWinner
+        roundNumber,
+        roundWinner,
+        setRoundNumber,
+        setRoundWinner,
+        setWinner,
     };
-    if(winner){
-        return (
-            <div className="flex flex-col items-center gap-3 text-center">
-                <p className="text-sm font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                    Game over
-                </p>
-                <p className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
-                    Winner: Player {winner} ({winner === 1 ? "X" : "O"})
-                </p>
-                <button onClick={() => window.location.reload()} className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-100 dark:focus:ring-zinc-400 dark:focus:ring-offset-zinc-950">
-                    Play Again
-                </button>
-            </div>
-        );
-    }
-    else{
-        return (
-            <div className="flex flex-col items-center gap-5">
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                    Current turn:{" "}
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-50">
-                        Player {currentPlayer} ({currentPlayer === 1 ? "X" : "O"})
-                    </span>
-                </p>
-                <Board gameState={gameState} />
-                <button onClick={() => window.location.reload()} className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-100 dark:focus:ring-zinc-400 dark:focus:ring-offset-zinc-950">
-                    Reset
-                </button>
-            </div>
-        );
-    }
+    return(
+        <>
+        {winner? <Winner winner={winner} playerInfo={playerInfo} /> : <Round gameState={gameState} playerInfo={playerInfo} />}
+        </>
+    );
 };
+

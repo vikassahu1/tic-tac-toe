@@ -2,12 +2,29 @@
 import React from "react";
 
 export interface GameState {
-    board: number[][];
-    currentPlayer: number;
     winner: number | null;
+    roundNumber: number | null;
+    roundWinner: number[];
+    setRoundNumber: React.Dispatch<React.SetStateAction<number>>;
+    setRoundWinner: React.Dispatch<React.SetStateAction<number[]>>;
+    setWinner: React.Dispatch<React.SetStateAction<number | null>>;
+}
+
+export interface PlayerInfo {
+    playeroneName: string;
+    playertwoName: string;
+    rounds: number;    // tracks number of rounds
     dimension: number;
     numberOfPlayers: number;
-    setBoard: React.Dispatch<React.SetStateAction<number[][]>>;
+    setPlayerName: React.Dispatch<React.SetStateAction<string[]>>;
+    setDim: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentRound: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface RoundState {
+    currentRound: number;
+    board: number[][];
+    currentPlayer: number;
     setCurrentPlayer: React.Dispatch<React.SetStateAction<number>>;
-    setWinner: React.Dispatch<React.SetStateAction<number | null>>;
+    setBoard: React.Dispatch<React.SetStateAction<number[][]>>;
 }
