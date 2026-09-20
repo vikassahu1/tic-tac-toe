@@ -78,10 +78,10 @@ export const Square = ({ row, column, value, roundState, gameState, playerInfo }
     return (
         <button
             type="button"
-            className="flex h-20 w-20 items-center justify-center rounded-lg bg-white shadow-sm transition hover:bg-zinc-50 active:scale-[0.98] dark:bg-zinc-900 dark:hover:bg-zinc-800"
+            className="flex h-20 w-20 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-stone-200/80 transition hover:bg-teal-50/60 hover:ring-teal-300/60 active:scale-[0.97] dark:bg-zinc-900 dark:ring-zinc-700 dark:hover:bg-teal-950/40 dark:hover:ring-teal-700/50"
             onClick={() => runClickHandler({ row, col: column, gameState, roundState, setBoxValue, playerInfo })}
         >
-            <span className={`text-3xl font-bold leading-none ${markColor}`}>{boxValue}</span>
+            <span className={`text-4xl font-bold leading-none tracking-tight ${markColor}`}>{boxValue}</span>
         </button>
     );
 };

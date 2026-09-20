@@ -11,7 +11,7 @@ export const Board = ({roundState, playerInfo, gameState}: {roundState: RoundSta
     return (
         <div
             key={gameState.roundNumber}
-            className="inline-grid gap-2 rounded-xl bg-zinc-200 p-2 dark:bg-zinc-800"
+            className="inline-grid gap-2.5 rounded-2xl bg-stone-200/90 p-2.5 shadow-inner dark:bg-zinc-800"
             style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}
         >
             {board.map((row, i) =>

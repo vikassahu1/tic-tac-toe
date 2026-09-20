@@ -21,12 +21,14 @@ export const Round = ({ gameState, playerInfo }: { gameState: GameState, playerI
     };
 
     return (
-        <div className="flex flex-col items center gap-5">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">Round {currentRound}</p>
+        <div className="flex flex-col items-center gap-5">
+            <p className="text-xs font-medium uppercase tracking-widest text-teal-700 dark:text-teal-400">
+                Round {currentRound}
+            </p>
 
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="text-sm text-stone-600 dark:text-zinc-400">
                 Current turn:{" "}
-                <span className="font-semibold text-zinc-900 dark:text-zinc-50">
+                <span className={`font-semibold ${currentPlayer === 1 ? "text-sky-600 dark:text-sky-400" : "text-rose-600 dark:text-rose-400"}`}>
                     Player {currentPlayer} ({currentPlayer === 1 ? "X" : "O"})
                 </span>
             </p>

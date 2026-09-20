@@ -38,17 +38,17 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
     };
 
     const fieldClass =
-        "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:border-zinc-500";
-    const labelClass = "text-sm font-medium text-zinc-700 dark:text-zinc-300";
+        "w-full rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:border-teal-400 dark:focus:ring-teal-400/20";
+    const labelClass = "text-sm font-medium text-stone-600 dark:text-zinc-300";
 
     return (
         <div className="flex w-full flex-col gap-6">
             <div className="text-center">
-                <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-                    Welcome to Tic-Tac-Toe
+                <h1 className="text-3xl font-semibold tracking-tight text-stone-900 dark:text-zinc-50">
+                    Tic-Tac-Toe
                 </h1>
-                <h3 className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                    Configuration
+                <h3 className="mt-2 text-sm text-stone-500 dark:text-zinc-400">
+                    Set up your match
                 </h3>
             </div>
 
@@ -105,7 +105,7 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
 
                 <button
                     type="submit"
-                    className="mt-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+                    className="mt-2 rounded-xl bg-teal-700 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-teal-600 active:scale-[0.99] dark:bg-teal-500 dark:text-zinc-950 dark:hover:bg-teal-400"
                 >
                     Start
                 </button>
