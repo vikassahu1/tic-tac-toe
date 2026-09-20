@@ -1,3 +1,5 @@
+import { PlayerInfo } from "@/types/stateManagement";
+
 export const checkWinner = (board: number[][]): boolean => {
     const n = board.length;
 
@@ -62,4 +64,10 @@ export const checkDraw = (board: number[][]): boolean => {
         }
     }
     return true;
+}
+
+export const resolvePlayer = (winner: number, playerInfo: PlayerInfo): string => {
+    const { playeroneName, playertwoName } = playerInfo;
+    if (winner === 1) return playeroneName;
+    else return playertwoName;
 }

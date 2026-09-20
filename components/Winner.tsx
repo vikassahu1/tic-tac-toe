@@ -1,6 +1,7 @@
 "use client";
 
 import { GameState, PlayerInfo } from "@/types/stateManagement";
+import { resolvePlayer } from "@/lib/utiliy";
 
 export const Winner = ({ winner, playerInfo }: { winner: number, playerInfo: PlayerInfo }) => {
     return (
@@ -9,7 +10,7 @@ export const Winner = ({ winner, playerInfo }: { winner: number, playerInfo: Pla
                 Game over
             </p>
             <p className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-zinc-50">
-                Player {winner} wins
+                {resolvePlayer(winner, playerInfo)} Wins !!
             </p>
         </div>
     );

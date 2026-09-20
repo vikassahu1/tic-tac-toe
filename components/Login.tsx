@@ -87,6 +87,7 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
                         type="number"
                         id="rounds"
                         name="rounds"
+                        placeholder="1"
                         className={fieldClass}
                     />
                 </div>
@@ -99,6 +100,7 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
                         type="number"
                         id="dim"
                         name="dim"
+                        placeholder="3"
                         className={fieldClass}
                     />
                 </div>
