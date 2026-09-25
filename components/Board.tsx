@@ -4,7 +4,7 @@ import { Square } from "@/components/Square";
 import { PlayerInfo, RoundState, GameState} from "@/types/stateManagement";
 
 export const Board = ({roundState, playerInfo, gameState}: {roundState: RoundState, playerInfo: PlayerInfo, gameState: GameState}) => {
-    const { dimension, numberOfPlayers } = playerInfo;
+    const { dimension } = playerInfo;
     const n = dimension;
     const board = roundState.board;
 

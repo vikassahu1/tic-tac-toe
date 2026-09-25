@@ -1,10 +1,16 @@
 // Manage the state of the game'
 import React from "react";
 
+export enum Difficulty {
+    EASY = "easy",
+    MEDIUM = "medium",
+    HARD = "hard",
+}
 export interface GameState {
     winner: number | null;
     roundNumber: number | null;
     roundWinner: number[];
+    difficulty?: Difficulty | null;
     setRoundNumber: React.Dispatch<React.SetStateAction<number>>;
     setRoundWinner: React.Dispatch<React.SetStateAction<number[]>>;
     setWinner: React.Dispatch<React.SetStateAction<number | null>>;
@@ -27,4 +33,9 @@ export interface RoundState {
     currentPlayer: number;
     setCurrentPlayer: React.Dispatch<React.SetStateAction<number>>;
     setBoard: React.Dispatch<React.SetStateAction<number[][]>>;
+}
+
+export interface Position {
+    row: number;
+    col: number;
 }
