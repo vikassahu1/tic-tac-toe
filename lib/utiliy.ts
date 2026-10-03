@@ -71,3 +71,6 @@ export const resolvePlayer = (winner: number, playerInfo: PlayerInfo): string =>
     if (winner === 1) return playeroneName;
     else return playertwoName;
 }
+
+
+// Common play logic 

@@ -1,6 +1,6 @@
 "use client";
 
-import { GameState, PlayerInfo } from "@/types/stateManagement";
+import { PlayerInfo } from "@/types/stateManagement";
 import { resolvePlayer } from "@/lib/utiliy";
 
 export const Winner = ({ winner, playerInfo }: { winner: number, playerInfo: PlayerInfo }) => {

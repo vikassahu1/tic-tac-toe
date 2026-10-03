@@ -2,7 +2,7 @@
 
 import { Home } from "@/components/Home";
 import { Login } from "@/components/Login";
-import { PlayerInfo} from "@/types/stateManagement";
+import { PlayerInfo, Difficulty} from "@/types/stateManagement";
 
 import { useState } from "react";
 
@@ -11,17 +11,23 @@ export default function Main() {
   const [rounds, setRounds] = useState(1);
   const [dim, setDim] = useState(3);
   const [playerName, setPlayerName] = useState<string[]>(["Player 1", "Player 2"]);
+  const [playwithAI, setPlaywithAI] = useState(false);
   const numberOfPlayers = 2;
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
 
   const playerInfo: PlayerInfo = {
     playeroneName: playerName[0],
     playertwoName: playerName[1],
+    playwithAI,
     rounds: rounds,
     dimension: dim,
     numberOfPlayers,
+    difficulty,
+    setPlaywithAI,
     setPlayerName,
     setDim,
     setCurrentRound: setRounds,
+    setDifficulty,
   };
 
 

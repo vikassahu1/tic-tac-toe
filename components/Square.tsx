@@ -16,6 +16,7 @@ const runClickHandler = ({ row, col, gameState, roundState, setBoxValue, playerI
     const { numberOfPlayers, rounds, dimension } = playerInfo;
     const { setRoundNumber } = gameState;
 
+
     const startNextRound = () => {
         setRoundNumber(currentRound + 1);
         setBoard(Array(dimension).fill(0).map(() => Array(dimension).fill(0)));
@@ -62,7 +63,7 @@ const runClickHandler = ({ row, col, gameState, roundState, setBoxValue, playerI
     }
 
     setCurrentPlayer(currentPlayer % numberOfPlayers + 1);
-    console.log("clicked");
+    
 };
 
 

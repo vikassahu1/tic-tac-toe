@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PlayerInfo } from "@/types/stateManagement";
 
 export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, setLoginflag: React.Dispatch<React.SetStateAction<boolean>> }) => {
-    const { setPlayerName, setCurrentRound, setDim} = playerInfo;
+    const { setPlayerName, setCurrentRound, setDim, setPlaywithAI, playwithAI} = playerInfo;
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -17,6 +17,8 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
 
         if (playeroneName === "") playeroneName = "Player 1";
         if (playertwoName === "") playertwoName = "Player 2";
+
+        if (playwithAI) playertwoName = "Computer";
         if (rounds === "") rounds = "1";
         let dimValue = Number(dim);
 
@@ -66,18 +68,39 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
                     />
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                    <label htmlFor="playertwoName" className={labelClass}>
-                        Player 2 Name
-                    </label>
-                    <input
-                        type="text"
-                        id="playertwoName"
-                        name="playertwoName"
-                        placeholder="Player 2"
-                        className={fieldClass}
-                    />
+                <div className="flex items-center w-full">
+                    
+                    <div className="flex flex-col w-[88%]">
+                        <label htmlFor="playertwoName" className={labelClass}> Player 2 Name </label>
+                        <input type="text" id="playertwoName" name="playertwoName" placeholder={playwithAI?"Computer":"Player 2"} className={fieldClass} readOnly={playwithAI}/>
+                    </div>
+
+                <div className="flex justify-center align-middle w-[12%] pt-5" onClick={() => { setPlaywithAI(!playwithAI);}}>
+                        {/* Added w-6 h-6 for sizing, and changed fill to currentColor or a visible Tailwind text color */}
+                        <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 24 24" 
+                        className="w-8 h-8 text-gray-700 dark:text-white" 
+                        fill="currentColor"
+                        >
+                        <path d="M14 18V20L16 21V22H8L7.99639 21.0036L10 20V18H2.9918C2.44405 18 2 17.5511 2 16.9925V4.00748C2 3.45107 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44892 22 4.00748V16.9925C22 17.5489 21.5447 18 21.0082 18H14ZM4 5V14H20V5H4Z"></path>
+                        </svg>
                 </div>
+                </div>
+
+
+                {playwithAI && (
+                    <div className="flex flex-col gap-1.5">
+                        <label htmlFor="difficulty" className={labelClass}>
+                            Difficulty
+                        </label>
+                        <select id="difficulty" name="difficulty" className={fieldClass}>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                )}  
 
                 <div className="flex flex-col gap-1.5">
                     <label htmlFor="rounds" className={labelClass}>

@@ -33,6 +33,7 @@ export const Round = ({ gameState, playerInfo }: { gameState: GameState, playerI
                     {resolvePlayer(currentPlayer, playerInfo)} ({currentPlayer === 1 ? "X" : "O"})
                 </span>
             </p>
+            {playerInfo.playwithAI && currentPlayer === 3}
             <Board roundState={roundState} playerInfo={playerInfo} gameState={gameState} />
         </div>
     );
