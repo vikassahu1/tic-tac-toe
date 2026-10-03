@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tic-tac-toe
 
-## Getting Started
+Simple tic-tac-toe in the browser. Play against a friend or against a computer opponent.
 
-First, run the development server:
+Built with Next.js, React, and Tailwind. The computer moves go through a small API route that uses [TypeSafe / JEV](https://www.typesafe.ai/) to pick a square.
+
+## Features
+
+- Human vs human, or human vs computer
+- Easy / medium / hard when playing the computer
+- Odd board sizes: 3×3, 5×5, 7×7, 9×9
+- Best-of-N rounds
+- Restart / back to setup without refreshing the page
+
+## Run locally
 
 ```bash
+npm install
+cp .env.example .env
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Env
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+For computer mode you need a TypeSafe API key:
 
-## Learn More
+```bash
+TYPESAFE_API_KEY=your_key_here
+```
 
-To learn more about Next.js, take a look at the following resources:
+Optional:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+TYPESAFE_BASE_URL=
+TYPESAFE_DEFAULT_MODEL=jev-latest
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Without the key, local PvP still works; AI moves will fail.
 
-## Deploy on Vercel
+## Project layout
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/                 # pages + /api/ai-move
+components/          # Login, Board, Round, etc.
+lib/utiliy.ts        # win / draw / move logic
+packages/jev/        # JEV client + play() prompt
+types/               # shared state types
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+| Command       | What it does        |
+|---------------|---------------------|
+| `npm run dev` | local dev server    |
+| `npm run build` | production build  |
+| `npm start`   | serve the build     |
+| `npm run lint`  | eslint            |
+
+## Notes
+
+- Board size must be odd (win condition is a full line).
+- Computer is always player 2 (`O`).
+- AI difficulty is chosen on the setup screen and passed into the move prompt.
