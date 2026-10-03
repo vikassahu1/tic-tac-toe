@@ -70,25 +70,47 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
                     />
                 </div>
 
-                <div className="flex items-center w-full">
-                    
-                    <div className="flex flex-col w-[88%]">
-                        <label htmlFor="playertwoName" className={labelClass}> Player 2 Name </label>
-                        <input type="text" id="playertwoName" name="playertwoName" placeholder={playwithAI?"Computer":"Player 2"} className={fieldClass} readOnly={playwithAI}/>
+                <div className="flex w-full items-end gap-2">
+                    <div className="flex flex-1 flex-col gap-1.5">
+                        <label htmlFor="playertwoName" className={labelClass}>
+                            Player 2 Name
+                        </label>
+                        <input
+                            type="text"
+                            id="playertwoName"
+                            name="playertwoName"
+                            placeholder={playwithAI ? "Computer" : "Player 2"}
+                            className={fieldClass}
+                            readOnly={playwithAI}
+                        />
                     </div>
 
-                <div className="flex justify-center align-middle w-[12%] pt-5" onClick={() => { setPlaywithAI(!playwithAI);}}>
-                        {/* Added w-6 h-6 for sizing, and changed fill to currentColor or a visible Tailwind text color */}
-                        <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        viewBox="0 0 24 24" 
-                        className="w-8 h-8 text-gray-700 dark:text-white" 
-                        fill="currentColor"
+                    <button
+                        type="button"
+                        title={playwithAI ? "Play vs human" : "Play vs computer"}
+                        aria-pressed={playwithAI}
+                        onClick={() => setPlaywithAI(!playwithAI)}
+                        className={`mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition ${
+                            playwithAI
+                                ? "border-teal-600 bg-teal-50 text-teal-700 dark:border-teal-400 dark:bg-teal-950/50 dark:text-teal-300"
+                                : "border-stone-300 bg-stone-50 text-stone-600 hover:border-teal-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                        }`}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            className="h-5 w-5"
+                            fill="currentColor"
                         >
-                        <path d="M14 18V20L16 21V22H8L7.99639 21.0036L10 20V18H2.9918C2.44405 18 2 17.5511 2 16.9925V4.00748C2 3.45107 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44892 22 4.00748V16.9925C22 17.5489 21.5447 18 21.0082 18H14ZM4 5V14H20V5H4Z"></path>
+                            <path d="M14 18V20L16 21V22H8L7.99639 21.0036L10 20V18H2.9918C2.44405 18 2 17.5511 2 16.9925V4.00748C2 3.45107 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44892 22 4.00748V16.9925C22 17.5489 21.5447 18 21.0082 18H14ZM4 5V14H20V5H4Z" />
                         </svg>
+                    </button>
                 </div>
-                </div>
+                {playwithAI && (
+                    <p className="-mt-2 text-xs text-teal-700 dark:text-teal-400">
+                        Playing against computer
+                    </p>
+                )}
 
 
                 {playwithAI && (
@@ -112,6 +134,8 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
                         type="number"
                         id="rounds"
                         name="rounds"
+                        min={1}
+                        defaultValue={1}
                         placeholder="1"
                         className={fieldClass}
                     />

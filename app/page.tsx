@@ -2,7 +2,7 @@
 
 import { Home } from "@/components/Home";
 import { Login } from "@/components/Login";
-import { PlayerInfo, Difficulty} from "@/types/stateManagement";
+import { PlayerInfo, Difficulty } from "@/types/stateManagement";
 
 import { useState } from "react";
 
@@ -30,11 +30,14 @@ export default function Main() {
     setDifficulty,
   };
 
-
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-gradient-to-b from-stone-100 via-teal-50 to-stone-100 px-4 py-16 font-sans dark:from-zinc-950 dark:via-teal-950/40 dark:to-zinc-950">
-      <main className="flex w-full max-w-2xl flex-col items-center gap-8 rounded-2xl border border-stone-200/80 bg-white/70 p-8 shadow-sm backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
-        {loginflag ? <Login playerInfo={playerInfo} setLoginflag={setLoginflag} /> : <Home playerInfo={playerInfo} />}
+    <div className="flex flex-1 flex-col items-center justify-center bg-gradient-to-b from-stone-100 via-teal-50 to-stone-100 px-4 py-12 font-sans dark:from-zinc-950 dark:via-teal-950/40 dark:to-zinc-950">
+      <main className="flex w-full max-w-2xl flex-col items-center gap-6 rounded-2xl border border-stone-200/80 bg-white/70 p-8 shadow-sm backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
+        {loginflag ? (
+          <Login playerInfo={playerInfo} setLoginflag={setLoginflag} />
+        ) : (
+          <Home playerInfo={playerInfo} onBack={() => setLoginflag(true)} />
+        )}
       </main>
     </div>
   );
