@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { PlayerInfo } from "@/types/stateManagement";
+import { Difficulty, PlayerInfo } from "@/types/stateManagement";
 
 export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, setLoginflag: React.Dispatch<React.SetStateAction<boolean>> }) => {
-    const { setPlayerName, setCurrentRound, setDim, setPlaywithAI, playwithAI} = playerInfo;
+    const { setPlayerName, setCurrentRound, setDim, setPlaywithAI, playwithAI, setDifficulty } = playerInfo;
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -14,6 +13,7 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
         let playertwoName = formData.get("playertwoName") as string;
         let rounds = formData.get("rounds") as string;
         let dim = formData.get("dim") as string;
+        const difficultyValue = (formData.get("difficulty") as Difficulty) || Difficulty.MEDIUM;
 
         if (playeroneName === "") playeroneName = "Player 1";
         if (playertwoName === "") playertwoName = "Player 2";
@@ -26,15 +26,17 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
             dim === "" ||
             Number.isNaN(dimValue) ||
             dimValue < 3 ||
-            dimValue > 10 ||
+            dimValue > 9 ||
             dimValue % 2 === 0
         ) {
             dimValue = 3;
         }
 
         setPlayerName([playeroneName, playertwoName]);
-        setCurrentRound(parseInt(rounds));
+        setCurrentRound(parseInt(rounds, 10) || 1);
         setDim(dimValue);
+        if (playwithAI) setDifficulty(difficultyValue);
+        else setDifficulty(null);
 
         setLoginflag(false);
     };
@@ -117,12 +119,16 @@ export const Login = ({ playerInfo, setLoginflag }: { playerInfo: PlayerInfo, se
 
                 <div className="flex flex-col gap-1.5">
                     <label htmlFor="dim" className={labelClass}>
-                        Dimension
+                        Board size (odd: 3, 5, 7, 9)
                     </label>
                     <input
                         type="number"
                         id="dim"
                         name="dim"
+                        min={3}
+                        max={9}
+                        step={2}
+                        defaultValue={3}
                         placeholder="3"
                         className={fieldClass}
                     />

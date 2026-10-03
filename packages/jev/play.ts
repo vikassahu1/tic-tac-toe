@@ -1,63 +1,80 @@
 import { JevClient, choice } from "@ai/client";
-import { RoundState, GameState, Position } from "@/types/stateManagement";
+import { RoundState, Position, PlayerInfo } from "@/types/stateManagement";
 
 export const play = async (
-    gameState: GameState,
-    roundState: RoundState
+    roundState: RoundState,
+    playerInfo: PlayerInfo
 ): Promise<Position> => {
-    const { difficulty } = gameState;
+    const difficulty = playerInfo.difficulty ?? "medium";
     const { board } = roundState;
 
     const dimension = board.length;
     const emptyPositions: string[] = [];
-    const gameBoard: string[][] = [];
 
-    // Convert numeric board into a representation JEV can understand
+    // Convert board to a readable grid for the model
+    const boardLines: string[] = [];
     for (let i = 0; i < dimension; i++) {
-        const row: string[] = [];
-
+        const cells: string[] = [];
         for (let j = 0; j < dimension; j++) {
             if (board[i][j] === 0) {
-                row.push("empty");
+                cells.push(".");
                 emptyPositions.push(`${i} ${j}`);
             } else if (board[i][j] === 1) {
-                row.push("X");
+                cells.push("X");
             } else {
-                row.push("O");
+                cells.push("O");
             }
         }
-
-        gameBoard.push(row);
+        boardLines.push(cells.join(" "));
     }
 
-    // Current game context
+    if (emptyPositions.length === 0) {
+        return { row: -1, col: -1 };
+    }
+
+    const boardText = boardLines.join("\n");
+
+    // Computer is always player 2 = O
     const state = {
         game: "Tic Tac Toe",
-        board: gameBoard,
-        difficulty: difficulty ?? "easy",
-        player: "X",
-        opponent: "O",
+        rules: `Get ${dimension} in a row (row, column, or diagonal) to win on a ${dimension}x${dimension} board.`,
+        board_size: dimension,
+        board: boardText,
+        you_are: "O",
+        opponent_is: "X",
+        empty_cells: emptyPositions,
+        difficulty,
     };
 
-    // Tell JEV what decision it needs to make
+    const difficultyGuide =
+        difficulty === "easy"
+            ? "Play casually. Prefer center/corners when free, but you may miss some blocks."
+            : difficulty === "hard"
+                ? "Play optimally. Always take a winning move if available. Always block the opponent's winning move. Prefer forks, then center, then corners."
+                : "Play competitively. Take winning moves, block opponent threats, then pick strong strategic squares (center, corners).";
+
     const instructions = `
-        Choose the position where X should be placed.
+You are O (the computer) in Tic-Tac-Toe on a ${dimension}x${dimension} board.
+Opponent is X. You must choose ONE empty cell for O.
 
-        Positions are represented as "row column" using zero-based indexing.
+Board (row-major, "." = empty):
+${boardText}
 
-        Difficulty: ${difficulty}.
-        On easy difficulty, make less optimal decisions.
-        On hard difficulty, play strategically and try to win.
+Coordinates are "row col" with 0-based indexing. Top-left is "0 0".
 
-        Choose only one of the provided legal positions.
-    `;
+Priority order:
+1) If O can win this turn, take that cell.
+2) If X can win next turn, block that cell.
+3) Otherwise follow difficulty guidance: ${difficultyGuide}
 
-    // Convert legal positions into JEV's choice criteria
+Choose exactly one legal empty position from the options.
+`;
+
     const criteria = Object.fromEntries(
-        emptyPositions.map((position) => [
-            position,
-            `Place X at row ${position.split(" ")[0]}, column ${position.split(" ")[1]}.`
-        ])
+        emptyPositions.map((position) => {
+            const [r, c] = position.split(" ");
+            return [position, `Place O at row ${r}, column ${c}.`];
+        })
     );
 
     const questions = {
@@ -68,8 +85,5 @@ export const play = async (
     const result = await client.ask(state, questions);
     const [row, col] = result.answers.move.choice.split(" ").map(Number);
 
-    return {
-        row,
-        col,
-    };
+    return { row, col };
 };

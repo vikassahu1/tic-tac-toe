@@ -9,12 +9,11 @@ export const Game = ({ playerInfo }: { playerInfo: PlayerInfo }) => {
     const { dimension, rounds } = playerInfo;
     const [roundWinner, setRoundWinner] = useState<number[]>(() => Array(rounds).fill(0));
     const [roundNumber, setRoundNumber] = useState(1);
+    const [winner, setWinner] = useState<number | null>(null);
 
     if (dimension % 2 === 0) {
         throw new Error("Dimension must be odd");
     }
-
-    const [winner, setWinner] = useState<number | null>(null);
 
     let gameState: GameState = {
         winner,
@@ -24,9 +23,13 @@ export const Game = ({ playerInfo }: { playerInfo: PlayerInfo }) => {
         setRoundWinner,
         setWinner,
     };
-    return(
+    return (
         <>
-        {winner? <Winner winner={winner} playerInfo={playerInfo} /> : <Round gameState={gameState} playerInfo={playerInfo} />}
+            {winner != null ? (
+                <Winner winner={winner} playerInfo={playerInfo} />
+            ) : (
+                <Round key={`${dimension}-${rounds}`} gameState={gameState} playerInfo={playerInfo} />
+            )}
         </>
     );
 };

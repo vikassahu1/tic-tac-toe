@@ -1,4 +1,5 @@
-import { PlayerInfo } from "@/types/stateManagement";
+import { PlayerInfo, RoundState, GameState } from "@/types/stateManagement";
+
 
 export const checkWinner = (board: number[][]): boolean => {
     const n = board.length;
@@ -74,3 +75,56 @@ export const resolvePlayer = (winner: number, playerInfo: PlayerInfo): string =>
 
 
 // Common play logic 
+export const runClickHandler = ({ row, col, gameState, roundState, playerInfo }: { row: number, col: number, roundState: RoundState, gameState: GameState, playerInfo: PlayerInfo  }) => {
+    console.log("runClickHandler called");
+    const { board, currentPlayer, setCurrentPlayer, currentRound, setBoard } = roundState;
+    const { numberOfPlayers, rounds, dimension } = playerInfo;
+    const { setRoundNumber } = gameState;
+
+
+    const startNextRound = () => {
+        setRoundNumber(currentRound + 1);
+        setBoard(Array(dimension).fill(0).map(() => Array(dimension).fill(0)));
+        setCurrentPlayer(1);
+    };
+    
+    if (alreadyFilled({ row, col, board })) {
+        console.log("Square already filled");
+        return;
+    }
+
+    // shallow copy of the board to avoid direct mutation
+    const newBoard = board.map(r => [...r]);
+    newBoard[row][col] = currentPlayer;
+    setBoard(newBoard);
+
+    const { setWinner, setRoundWinner } = gameState;
+
+    // check winner using the fresh board copy
+    if (checkWinner(newBoard)) {
+        setRoundWinner((prev) => prev.map((val, idx) => idx === ((currentRound ?? 1) - 1) ? currentPlayer : val));
+        console.log("Winner found");
+
+        if (currentRound === rounds) {
+            setWinner(currentPlayer);
+            console.log("Winner set");
+            return;
+        }
+        startNextRound();
+        return;
+    }
+    // check draw using the fresh board copy
+    if (checkDraw(newBoard)) {
+        setRoundWinner((prev) => prev.map((val, idx) => idx === ((currentRound ?? 1) - 1) ? -1 : val));
+        console.log("Draw found");
+        if (currentRound === rounds) {
+            setWinner(-1);
+            return;
+        }
+        startNextRound();
+        return;
+    }
+
+    setCurrentPlayer(currentPlayer % numberOfPlayers + 1);
+    
+};
